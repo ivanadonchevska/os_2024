@@ -1,0 +1,6 @@
+find ~ -type d | xargs -I{} chmod 755 {}
+
+# umask 0022 means that the owner will have full permission(no permission rremoved)
+# group will have write permissions removed
+# others will have write permissions removed
+# 777 - 022 -> 755 => that's why we should change permissions this way

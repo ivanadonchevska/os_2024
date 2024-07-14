@@ -1,0 +1,1 @@
+cat planets.txt | sort -k3rn -t';' | tail -n +2 | head -n1 | awk -F';' '{print$2}' | xargs -I{} awk -F';' '{if($2=="{}") print $0}' planets.txt | sort -k3n -t';' | head -n 1 | awk -F';' '{print $1  "\t" $4}' 

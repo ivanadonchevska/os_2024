@@ -1,0 +1,28 @@
+fork()
+exec()
+wait()
+
+read reads one by one byte
+echo -e -n "f1 f2" -> echo does not print new line at the end, but by default it prints
+
+imenuvana/neimenuvana turba => named pipe, unnamed pipe
+socker
+
+
+*PIPE
+	pipe is fifo queue
+
+razlikata e che neimenuvanite mogat da se izpolzvat mejdu roditel i dete
+named pile is like file vurhu fajlovata sistema, mogat procesi da pishat, da se naredat da chetat ot nea i nyama ogranichenie da budat roditel i dete
+
+ako pishem v turba, samo ako znaem che shte ima proces koito shte chete ot tazi turba
+
+man 7 pipe -> read this man page!
+ne moze edeb proces da kaze dali nekoi drugi treba da pishaa ili da citaa, za tova treba da se grizi operacionnata sistema
+
+vseki proces da si zatvarja stranata na turbata kojato ne mu treba
+
+3 4 -> prvite slobodni zashtot 0, 1, 2 sa zaeti za stdin, stdout, stderr
+
+zombie process -> proces shte bude ubit ako ne bude obraboteen ot roditelja
+

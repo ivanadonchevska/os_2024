@@ -1,0 +1,1 @@
+find ~ -maxdepth 1 -user $(whoami) 2>/dev/null | xargs -I{} chmod 775 {} 2>/dev/null

@@ -1,0 +1,10 @@
+
+find . -type f  -regex '.*/[a-zA-z0-9_]+_[0-9]+\.log' 
+find . -type f -regex '\.\/[a-zA-z0-9_]+_[0-9]+\.log$'
+
+# use egrep instead of regex, it has more options
+
+#final soluttion
+find . -type f -regex '\.\/[a-zA-z0-9_]+_[0-9]+\.log$' | xargs -I{} grep -wo 'error' {} | wc -l
+
+

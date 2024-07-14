@@ -1,0 +1,7 @@
+find . -type f | xargs -I{} stat -c %h %n {} | sort  -k1 -rn |head -n 5 | cut -d' ' -f2
+
+# xargs reads the file paths from standard input and passes them as argument to 'stat'
+# stat -> is a command used to display file or file system status
+# -c "%h %n" -> specifies the format for the output. '%h' represents number of hardlinks and '%n' represents the file name
+# {} is replaced by each file path recieved from 'xargs'
+

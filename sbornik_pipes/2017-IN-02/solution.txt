@@ -1,0 +1,10 @@
+a)
+rm $(find . -mindepth 1 -type f -size 0)
+or
+find . -mindepth 1 -type f -size 0 -delete
+#rm -v -> explain what is being done
+
+ b)
+find ~ -type f -exec du -h {} \; | sort -rn | head -n 5 |cut -f2| xargs rm
+# -exec du -h {} \; -> for each line found it executes 'du -h' to calculate its size in a himan-readable format
+# xargs rm -> takes each file found by 'find' and passes them as arguments to 'rm' effectively deleting them

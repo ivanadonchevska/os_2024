@@ -1,0 +1,127 @@
+#STAT
+stat -> get file status
+* retrieve information aboit the file pointed to by pathname
+
+fstat -> is identical to stat(), except that the file about which information is to be retrieved is specified by the file descriptor fd
+
+#EXEC
+
+the 'exec' system call is a group of functions that replace current process image with a new process image. In other words, it runs a new programm in the context of the current process, replacing the old program.
+
+* Typical Use Case: when a process needs to run a different program without creating a new process. Commonly used in combination with the 'fork' system call.
+
+#exec() se izpolzva za da se izpulni vunshna programa v tekushtiya proces. pri uspeshno ispulnenie, programata na tekushtiya proces se zamenya s dadenata
+
+#execl()
+* int execl(const char* path, const char* arg, ... , (char*) NULL);
+* executes a program pointed to by 'path' and arguments are passed as a list
+* int execl("/usr/bin/cat", "cat", "/etc/issue", (char*) NULL);
+
+#execlp
+* int execlp(const char* file, const char* arg, ..., (char*) NULL);
+* similar to 'execl', but uses the 'file' environment variable to find the executable
+* int execlp("cat", "cat", "/etc/issue", (char*)  NULL);
+
+#execvp
+* int execvp(const char* file, const char* argv[]);
+* similar to 'execv', but uses the 'file' environment variable to find the executable 
+* int execvp("cat", command_args);
+-> command_args[0] = "cat";
+
+** if the 'exec' function is successful, it does not return, it returns only on error and sets the errno to indicare the error!!!
+
+#Fixed-Width Integer Types
+The fixed-width integer types are part of the C99 standard, providing a way to specify integers with exact bid widhts. They are essential for applications where the size of data matters, such as embedded systems, file formats, network protocols, and low-level programming.
+
+#uint8_t
+* unsigned 8-bit integer
+* range: 0 to 255
+* example: uint8_t x = 200;
+
+#uint16_t
+* usingned 16-bit integer
+* range: 0 to 65 535
+* example: uint16_t x = 50 000;
+
+#uint32_t
+* unsigned 32-bit integer
+* range: 0 to 4 294 967 295
+* example: uint32_t x = 3000000000;
+
+#int8_t
+* signed 8-bit integer
+* range: -128 to 127
+* example: int8_t x = -100;
+
+*** uint is only for positive values
+*** int uses 4 bytes and uint8_t is guaranteed to be 8 bits across all platforms
+
+#strlen and from str to integer
+* when need to convert given arguments, as strings, to integers, can easily convert them by cutting the terminated null at the end
+-> for instance:
+	int N = argv[1][0] - '0';
+	-> but here the given argument should be one digit number so we can cut '\0' from argv[1][0]
+	-> to check the length, can use strlen(argv[1]) and it returns the real length of the argument without including the null terminated sting at the end
+
+# or using strtol
+char* endptr;
+int num = strtol(argv[1], &endptr, 10);
+
+# to find how many elements are in file if they are uint16_t numbers, for instance, just say:
+int size = st.st_size / sizeof(uint16_t);
+
+# lseek + write
+lseek() -> used to move the file pointer to a specific location within a file
+* when performing a write operation after moving the file pointer with lseek, the data at the current file pointer possition will be overwritten with the new data
+** it does not insert data, it replaces existing data, starting from current file pointer position
+
+# get the file size in bytes, using lseek
+int file_size = lseek(fd, 0, SEEK_END);
+* lseek moves the file pointer to the end of the file and returns the position of the file pointer, which is effectively the size of the file in bytes
+
+# insert lseek()
+* if want to insert the data in the file, not to replace it using lseek(), should create dynamic array to store the rest of the file, after insertion point, there
+	int buffer_size = file_size - offset;
+	char* buffer = (char*)malloc(buffer_size);
+	if(buffer == NULL) {
+		(err1, "error");
+	}
+	...
+	read(fd, buffer ..); // read the content in buffer
+	write(fd, buffer, ..); // write it back to file
+
+** this can also be done, without using dynamic memory with reading and writing in chunks and shifting the file content, but given approach is easier to debug if there is an error
+-> can see the examples in lseek_insert.c and lseek_replace.c
+
+# sorting using qsort
+int cmp(const void* a, cons void* b) {
+	return (*(const uint16_t*)a - *(const uint16_t*)b);
+}
+ // ascending order, for descending just change b - a
+qsort(arr, arrSize, sizeof(uint16_t), cmp);
+
+# sort with using less memory
+
+-> uint32_t* fhalf = (uint32_t*)malloc(half * sizeof(uint32_t)); 
+-> read first half of the file
+-> qsort on first half
+-> create tmp file and write the sorted fhalf in it
+
+-> do the same for the second half
+
+-> read one by one compare them and write them
+ * task #2018-SE-02
+
+# parallelism vs synchronization
+
+* Parallelism refers to the simulateous execution of multiple processes or threads to perform tasks concurrently. 
+* Multiple tasks run at the same time on different cores or processes
+* tasks are divided among multiple processes and cores
+* parallelism can speed up the execution time of programs by utilizing multiple resources
+
+* Synchronization refers to the coordination and control access to shared resources in a concurent environment
+* it's essential to ensure that multiple processes or threads do not interfere with each other while accessing shared data.
+* techniques like mutual exclussion locks(mutex) are used to prevent concurrent access to critical sections of code or shared resources
+
+
+
